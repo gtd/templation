@@ -1,0 +1,2 @@
+<?php include('Templation/driver.php') ?>
+<p>The nested menus are achieved using standard UL elements.  The link tags should use absolute paths (to avoid ambiguity with similarly names files in different directories) and should be nested directly within the LI elements.  The current regexp-based parsing method is delicate, but gets the job done.</p>

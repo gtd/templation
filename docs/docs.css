@@ -1,0 +1,123 @@
+body {
+    font-family: Times, "Times New Roman", serif;
+    background-color: #ccc;
+    line-height: 1.2em;
+    margin: 0;
+}
+
+h1, h2, h3 {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    line-height: 1.2em;
+}
+h1 { 
+    font-size: 36px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #036;
+    border-top: 2px solid #666;
+    margin-top: 2em;
+}
+
+dt {font-weight: bold}
+code {font-family: Monaco, Courier, monospace;}
+acronym {border-bottom: 2px dotted green}
+
+p.note {
+	font-style: italic;
+}
+p.code {
+	border: 1px solid #999;
+	background-color: #ddd;
+	margin-bottom: 1em;
+    padding: 1em;
+    font-family: Monaco, Courier, monospace;
+    font-size: 10px;
+}
+
+/* EXAMPLE FILES */
+div.exampleDocument {
+	border: 1px solid #999;
+	background-color: #ddd;
+	margin-bottom: 1em;
+}
+div.exampleDocument p {
+	margin: 0;
+}
+div.exampleDocument p.path {
+	background-color: #999;
+	padding: .2em;
+}
+div.exampleDocument p.path strong {
+	display: block;
+	float: right;
+	width: 50%;
+	text-align: right;
+}
+div.exampleDocument p.contents {
+	clear: both;
+	float: left;
+	width: 600px;
+	white-space: pre;
+	padding: .5em;
+	font-family: Monaco, Courier, monospace;
+	font-size: 10px;
+	line-height: 12px;
+}
+div.exampleDocument p.contents strong {
+	font-weight: normal;
+	color: red;
+}
+div.exampleDocument p.description {
+	margin-left: 600px;
+	background-color: #bbb;
+	padding: .5em;
+}
+
+
+/* NAVIGATION STYLES */
+div.navigation {
+    background-color: #aaa;
+    padding: .2em;
+}
+div.navigation a {
+    text-decoration: none;
+    padding-top: 2px;
+}
+a.leftNav {
+    width: 30%;
+    float: left;
+}
+a.centerNav {
+    width: 40%;
+    float: left;
+    text-align: center;
+}
+a.rightNav {
+    width: 30%;
+    float: left;
+    text-align: right;
+}
+a.leftNav span {
+    padding-left: 20px;
+    background: no-repeat left center url(images/nav_back.gif);
+}
+a.centerNav span {
+    padding-left: 20px;
+    background: no-repeat left center url(images/nav_up.gif);
+}
+a.rightNav span {
+    padding-right: 20px;
+    background: no-repeat right center url(images/nav_next.gif);
+}
+
+
+#content {
+    width: 95%;
+    margin: 0 auto;
+}

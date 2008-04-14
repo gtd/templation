@@ -1,0 +1,4 @@
+#All this stuff makes source links work without phps softlinks, but doesn't always work.
+#RewriteEngine on
+#RewriteBase /docs/examples
+#RewriteRule ^(.+\.php)s$ $1 [T=application/x-httpd-php-source]

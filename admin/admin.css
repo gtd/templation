@@ -1,0 +1,68 @@
+body {
+	font-family: verdana, sans-serif;
+	font-size: 12px;
+	background: #ddd;
+}
+h3 {
+	margin: 0;
+	font-size: 14px;
+	font-weight: bold;
+	color: white;
+	background-color: black;
+}
+
+.dir {
+	background-color: #ccf;
+}
+.parsed {
+	background-color: #cfc;
+}
+.file {
+	background-color: #fcc;
+}
+
+#key {
+	float: right;
+	width: 100px;
+	border: 1px solid black;
+	margin-left: 5px;
+}
+#key div {
+	padding: 2px;
+}
+
+
+
+.topTable {
+	border: 1px solid black;
+	border-right-width: 0;
+	border-bottom-width: 0;
+	background: #fff;
+}
+.topTable td {
+	border: 1px solid black;
+	border-left-width: 0;
+	border-top-width: 0;
+}
+.topTable table {
+	border: 1px solid black;
+	border-right-width: 0;
+	border-bottom-width: 0;
+}
+td {
+	vertical-align: top;
+	padding: 0;
+}
+
+ul {
+	margin: 1px;
+	list-style: none;
+	padding: 0;
+}
+.meta {
+	font-size: 9px;
+	font-family: verdana;
+}
+.redundant {
+    color: red;
+}

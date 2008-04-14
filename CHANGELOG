@@ -1,0 +1,15 @@
+Beta 3.1 Changes:
+
+* Fixed serious bug resulting in the hierarchy being completely broken.  Doh!
+
+Beta 3 Changes:
+
+* New template tag <%%tpl filename%%> will be replaced by a sub-template parsed with the same data.
+* Site-specific data repository now goes in DOCUMENT_ROOT/_data (by default).
+* Auto-list processing replaced by Templation_Widget::metaToArray().
+* Integer strings converted to actual PHP integers during meta gathering process.
+* Action processing refactored (including some fixes).
+* /tests/ directory added with standalone tests as well as full site tests based in tests/www
+* Fixed src_filename to override src_name if it is specified.  This is necessary under certain mod_rewrite conditions.
+* Fixed serious bug with leading PHP block being repeated if body tags are ommitted.
+* Fixed bug where calling the same widget from a template would always use the initial tag parameters instead of updating at each call.

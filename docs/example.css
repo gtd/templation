@@ -1,0 +1,14 @@
+#nav {
+    width: 200px;
+    background-color: #ccc;
+    float: left;
+}
+
+#content {
+    margin-left: 210px;
+}
+
+#templationDebug {
+    margin-top: 20px;
+    clear: both;
+}
