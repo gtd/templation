@@ -33,7 +33,6 @@
 * $Id: Templation.class.php,v 1.5 2005/09/05 20:43:25 dasil003 Exp $
 */
 
-require_once "PEAR.php";
 require_once "Templation_Widget.class.php";
 
 // Values for mode_vector of the parseTemplate function.
@@ -67,7 +66,7 @@ define("TEMPLATION_NOT_ENOUGH_INCLUDES",       -1001);
 define("TEMPLATION_WIDGET_NOTICE",             -1002);
 
 
-class Templation extends PEAR
+class Templation
 {
     /** If a critical error occurs, this should be set to true.
     * @access private
@@ -112,11 +111,6 @@ class Templation extends PEAR
     var $template_dirs = array();
     var $action_dirs = array();
 
-    /*** ERROR HANDLING ***/
-    var $errors = array();          //Array of PEAR errors that occurred during processing (if mode contains PEAR_ERROR_RETURN).
-    var $error_log = '';            //Full path filename to a Templation error log.
-    var $error_function = '';       //A callback function for Templation errors, should follow the PHP pseudo-type format for a function or class method.
-    
     /*** AUXILIARY VARIABLES not used by Templation directly (recommended for widget use) ***/
     var $index_filenames = array('index.php','index.html'); //Useful information when it comes to link recognition.
     
@@ -128,10 +122,6 @@ class Templation extends PEAR
     **/
     function Templation($tpl_dir = '', $file_path = '')
     {
-        /*** PEAR Constructor ***/
-        $this->PEAR();
-        
-        
         /*** SET UP GLOBAL SETTINGS ***/
         if($tpl_dir == '') {
             $p = strrpos(__FILE__,'/');
@@ -159,11 +149,6 @@ class Templation extends PEAR
         if($this->tpl_dir_local && is_file($this->tpl_dir_local.'/settings.php')) include_once($this->tpl_dir_local.'/settings.php');
         
         
-        /*** SET UP ERROR HANDLING ***/
-        if(!empty($this->error_function)) $this->setErrorHandling(PEAR_ERROR_CALLBACK, $this->error_function);
-        else $this->setErrorHandling(PEAR_ERROR_PRINT, "<p><strong>Templation Error:</strong> %s</p>");
-        
-        
         /*** DEFAULT PAGE ***/
         if($file_path == '') {
             if($this->src_filename) $file_path = $_SERVER[$this->src_filename];
@@ -176,17 +161,17 @@ class Templation extends PEAR
         
         /*** ERROR CHECKING ***/
         if(!is_dir($this->tpl_dir)) {
-            $this->errors[] = $this->raiseError("Initialization error: The specified data repository '<code>{$this->tpl_dir}</code>' is not a directory.", TEMPLATION_BAD_SETTING);
+            throw new Exception("Initialization error: The specified data repository '<code>{$this->tpl_dir}</code>' is not a directory.", TEMPLATION_BAD_SETTING);
             $this->invalid = true;
             return;
         }
         
         if(!is_dir($this->root)) {
-            $this->errors[] = $this->raiseError("Initialization error: The specified site root '<code>{$this->root}</code>' is not a directory.", TEMPLATION_BAD_SETTING);
+            throw new Exception("Initialization error: The specified site root '<code>{$this->root}</code>' is not a directory.", TEMPLATION_BAD_SETTING);
             $this->invalid = true;
             return;
         } elseif(!is_file($file_path)) {
-            $this->errors[] = $this->raiseError("Initialization error: The specified file '<code>{$file_path}</code>'".($file_path_autodetected ? " (auto-detected from URL)" : '')." is not a file.", TEMPLATION_BAD_SETTING);
+            throw new Exception("Initialization error: The specified file '<code>{$file_path}</code>'".($file_path_autodetected ? " (auto-detected from URL)" : '')." is not a file.", TEMPLATION_BAD_SETTING);
             $this->invalid = true;
             return;
         }
@@ -201,7 +186,7 @@ class Templation extends PEAR
         && Templation_File::isTemplationFile($this->pages[$page_num]) ) {
             return $this->pages[$page_num]->outputFile();
         } else {
-            $this->errors[] = $this->raiseError("output(): Requested page doesn't exist", TEMPLATION_INVALID_FILE_OBJECT);
+            throw new Exception("output(): Requested page doesn't exist", TEMPLATION_INVALID_FILE_OBJECT);
             return false;
         }
     }
@@ -284,7 +269,7 @@ class Templation extends PEAR
         }
         
         if (!isset($widget_path)) {
-            $this->errors[] = $this->raiseError("_processWidget(): Widget '$widget' does not exist", TEMPLATION_WIDGET_NOT_FOUND);
+            throw new Exception("_processWidget(): Widget '$widget' does not exist", TEMPLATION_WIDGET_NOT_FOUND);
         } else {
             if(!isset($this->widgets[$widget])) {
                 $this->widgets[$widget] = new Templation_Widget($widget_path, $argv, $data, $src_page);
@@ -692,9 +677,9 @@ class Templation_File
         }
 
         if (!isset($template_filename)) {
-            $this->tpl->errors[] = $this->tpl->raiseError("_readTemplate(): Unsuccessful finding '$filename'", TEMPLATION_TEMPLATE_NOT_FOUND, null, null, serialize($userinfo));
+            throw new Exception("_readTemplate(): Unsuccessful finding '$filename'", TEMPLATION_TEMPLATE_NOT_FOUND);
         } else if ( ($fp = fopen($template_filename, 'r')) === false) {
-            $this->tpl->errors[] = $this->tpl->raiseError("_readTemplate(): Unsuccessful opening '$filename'", TEMPLATION_TEMPLATE_UNOPENABLE, null, null, serialize($userinfo));
+            throw new Exception("_readTemplate(): Unsuccessful opening '$filename'", TEMPLATION_TEMPLATE_UNOPENABLE);
         } else {
             $this->addDependency($template_filename);
             $template = fread($fp, filesize($template_filename));
@@ -717,7 +702,7 @@ class Templation_File
                 foreach($this->tpl->action_dirs as $path) {
                     if(is_file($path.'/'.$a)) $action_path = $path.'/'.$a;
                 }
-                if(!$action_path) $this->tpl->errors[] = $this->tpl->raiseError("_runActions(): Action '$a' not found.", TEMPLATION_ACTION_NOT_FOUND);
+                if(!$action_path) throw new Exception("_runActions(): Action '$a' not found.", TEMPLATION_ACTION_NOT_FOUND);
                 else include($action_path);
             }
         }

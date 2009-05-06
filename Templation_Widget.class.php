@@ -65,9 +65,9 @@ class Templation_Widget {
         $tpl =& $this->src_page->tpl;
         
         if (!is_file($file)) {
-            $tpl->errors[] = $tpl->raiseError("getInclude(): Include file '$file' is not valid", TEMPLATION_INCLUDE_NOT_FOUND);
+            throw new Exception("getInclude(): Include file '$file' is not valid", TEMPLATION_INCLUDE_NOT_FOUND);
         } else if (!$fp = fopen($file, 'r')) {
-            $tpl->errors[] = $tpl->raiseError("getInclude(): Error opening '$file'", TEMPLATION_INCLUDE_UNOPENABLE);
+            throw new Exception("getInclude(): Error opening '$file'", TEMPLATION_INCLUDE_UNOPENABLE);
         } else {
             $this->src_page->addDependency($file);
             return fread($fp, filesize($file));
@@ -87,14 +87,14 @@ class Templation_Widget {
         $paths = array();
         
         if (!isset($dir)) {
-			$dir = $tpl->root . substr($_SERVER['SCRIPT_NAME'],0,strrpos($_SERVER['SCRIPT_NAME'],'/'));
-		}
-	
-	    if (substr($dir,0,strlen($tpl->root)) != $tpl->root) {
-	        $tpl->errors[] = $tpl->raiseError("findIncludes(): The directory '$dir' is not within the site root", TEMPLATION_INVALID_PATH);
-	        return false;
-	    }
-	    
+            $dir = $tpl->root . substr($_SERVER['SCRIPT_NAME'],0,strrpos($_SERVER['SCRIPT_NAME'],'/'));
+        }
+        
+        if (substr($dir,0,strlen($tpl->root)) != $tpl->root) {
+            throw new Exception("findIncludes(): The directory '$dir' is not within the site root", TEMPLATION_INVALID_PATH);
+            return false;
+        }
+        
         $path = $dir.'/'.$tpl->includes_dir.'/'.$file;
          if(is_file($path)) {
              $paths[] = $path;
@@ -123,7 +123,7 @@ class Templation_Widget {
         }
         
         /*if($num > 0) {
-            $tpl->errors[] = $tpl->raiseError("findIncludes(): Less than the requested number of includes were returned", TEMPLATION_NOT_ENOUGH_INCLUDES);
+            throw new Exception("findIncludes(): Less than the requested number of includes were returned", TEMPLATION_NOT_ENOUGH_INCLUDES);
         }*/
         
         foreach($paths as $p) {
@@ -160,10 +160,6 @@ class Templation_Widget {
     
     function getStatic($key) {
         return $this->statics[$key];
-    }
-    
-    function raiseError($msg, $code = TEMPLATION_WIDGET_WARNING) {
-        $this->src_page->tpl->errors[] = $this->src_page->tpl->raiseError('Widget '.$this->widget.': '.$msg,$code);
     }
     
     

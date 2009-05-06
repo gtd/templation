@@ -40,15 +40,6 @@ The Templation class lists a number of variables that can be modified globally o
 	<dt><code>pages</code></dt>
 		<dd>Array of Templation_File objects.  By default there is only one element in this array, and it holds the constructed page.  However, Templation reserves the right to build multiple pages at once.  This functionality serves little purpose except to aid in the building of admin tools.  If you want to use this variable you should first become very familiar with Templation's main code base.</dd>
 
-	<dt><code>errors</code></dt>
-		<dd>Array of PEAR errors that occurred during processing (if mode contains PEAR_ERROR_RETURN).  Usually it's easier to create a custom handler function for errors or just have them printed out.  However, it may occasionally be useful to have a big list of errors at your fingertips if you are writing code that might make use of them.</dd>
-
-	<dt><code>error_log</code></dt>
-		<dd>Full path filename to a Templation error log.</dd>
-
-	<dt><code>error_function</code></dt>
-		<dd>A callback function for Templation errors, should follow the PHP pseudo-type format for a function or class method.</dd>
-
 	<dt><code>index_filenames</code></dt>
 		<dd>Useful information when it comes to link recognition.  Not used by the templation core, but commonly needed by widgets for such things as recognizing links to the current page etc.</dd>
 </dl>
